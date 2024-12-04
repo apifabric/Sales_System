@@ -1,0 +1,102 @@
+{
+    "models": [
+        {
+            "classname": "Customer",
+            "code": "class Customer(Base):\n    \"\"\"\n    description: Table for storing customer information including their details.\n    \"\"\"\n    __tablename__ = 'Customers'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String)\n    email = Column(String)\n    phone = Column(String)\n    created_date = Column(DateTime, default=datetime.utcnow)\n    address = Column(String)",
+            "sqlite_create": "CREATE TABLE Customers (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    name TEXT,\n    email TEXT,\n    phone TEXT,\n    created_date DATETIME DEFAULT CURRENT_TIMESTAMP,\n    address TEXT\n);",
+            "description": "Table for storing customer information including their details.",
+            "name": "customers_table"
+        },
+        {
+            "classname": "Order",
+            "code": "class Order(Base):\n    \"\"\"\n    description: Table for storing order information including referencing customers and containing notes.\n    \"\"\"\n    __tablename__ = 'Orders'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    order_date = Column(DateTime, default=datetime.utcnow)\n    customer_id = Column(Integer, ForeignKey('Customers.id'))\n    notes = Column(String)",
+            "sqlite_create": "CREATE TABLE Orders (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    order_date DATETIME DEFAULT CURRENT_TIMESTAMP,\n    customer_id INTEGER,\n    notes TEXT,\n    FOREIGN KEY (customer_id) REFERENCES Customers(id)\n);",
+            "description": "Table for storing order information including referencing customers and containing notes.",
+            "name": "orders_table"
+        },
+        {
+            "classname": "Product",
+            "code": "class Product(Base):\n    \"\"\"\n    description: Table representing products available in the store.\n    \"\"\"\n    __tablename__ = 'Products'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String)\n    description = Column(String)\n    price = Column(Integer)\n    stock_quantity = Column(Integer)",
+            "sqlite_create": "CREATE TABLE Products (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    name TEXT,\n    description TEXT,\n    price INTEGER,\n    stock_quantity INTEGER\n);",
+            "description": "Table representing products available in the store.",
+            "name": "products_table"
+        },
+        {
+            "classname": "Item",
+            "code": "class Item(Base):\n    \"\"\"\n    description: Table representing items within an order, linking products and orders.\n    \"\"\"\n    __tablename__ = 'Items'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    order_id = Column(Integer, ForeignKey('Orders.id'))\n    product_id = Column(Integer, ForeignKey('Products.id'))\n    quantity = Column(Integer)\n    price = Column(Integer)",
+            "sqlite_create": "CREATE TABLE Items (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    order_id INTEGER,\n    product_id INTEGER,\n    quantity INTEGER,\n    price INTEGER,\n    FOREIGN KEY (order_id) REFERENCES Orders(id),\n    FOREIGN KEY (product_id) REFERENCES Products(id)\n);",
+            "description": "Table representing items within an order, linking products and orders.",
+            "name": "items_table"
+        }
+    ],
+    "rules": [],
+    "test_data": "pages data will represent test orders, customers, products, and items for the database system this will allow for testing and validation of database functionalities facilities provided this textual data block describes the initialization of each data row of attributes.",
+    "test_data_rows": [
+        {
+            "test_data_row_variable": "customer1",
+            "code": "customer1 = Customer(name=\"John Doe\", email=\"john.doe@example.com\", phone=\"1234567890\", address=\"123 Elm St, Springfield\")"
+        },
+        {
+            "test_data_row_variable": "customer2",
+            "code": "customer2 = Customer(name=\"Jane Smith\", email=\"jane.smith@example.com\", phone=\"0987654321\", address=\"456 Maple Ave, Greenville\")"
+        },
+        {
+            "test_data_row_variable": "customer3",
+            "code": "customer3 = Customer(name=\"Alice Johnson\", email=\"alice.j@example.com\", phone=\"5551234567\", address=\"789 Pine Rd, Hilltown\")"
+        },
+        {
+            "test_data_row_variable": "customer4",
+            "code": "customer4 = Customer(name=\"Bob Brown\", email=\"bob.b@example.com\", phone=\"5559876543\", address=\"321 Oak Dr, Lakecity\")"
+        },
+        {
+            "test_data_row_variable": "order1",
+            "code": "order1 = Order(order_date=date(2023, 1, 10), customer_id=1, notes=\"Urgent delivery\")"
+        },
+        {
+            "test_data_row_variable": "order2",
+            "code": "order2 = Order(order_date=date(2023, 1, 15), customer_id=2, notes=\"Include a gift note\")"
+        },
+        {
+            "test_data_row_variable": "order3",
+            "code": "order3 = Order(order_date=date(2023, 1, 20), customer_id=3, notes=\"Deliver during afternoon\")"
+        },
+        {
+            "test_data_row_variable": "order4",
+            "code": "order4 = Order(order_date=date(2023, 1, 25), customer_id=4, notes=\"No packaging\")"
+        },
+        {
+            "test_data_row_variable": "product1",
+            "code": "product1 = Product(name=\"Laptop\", description=\"15-inch screen, 8GB RAM\", price=1000, stock_quantity=50)"
+        },
+        {
+            "test_data_row_variable": "product2",
+            "code": "product2 = Product(name=\"Smartphone\", description=\"64GB, Dual SIM\", price=800, stock_quantity=100)"
+        },
+        {
+            "test_data_row_variable": "product3",
+            "code": "product3 = Product(name=\"Headphones\", description=\"Noise cancelling\", price=150, stock_quantity=200)"
+        },
+        {
+            "test_data_row_variable": "product4",
+            "code": "product4 = Product(name=\"Monitor\", description=\"27-inch 4K display\", price=300, stock_quantity=75)"
+        },
+        {
+            "test_data_row_variable": "item1",
+            "code": "item1 = Item(order_id=1, product_id=1, quantity=2, price=950)"
+        },
+        {
+            "test_data_row_variable": "item2",
+            "code": "item2 = Item(order_id=2, product_id=2, quantity=1, price=800)"
+        },
+        {
+            "test_data_row_variable": "item3",
+            "code": "item3 = Item(order_id=3, product_id=3, quantity=3, price=145)"
+        },
+        {
+            "test_data_row_variable": "item4",
+            "code": "item4 = Item(order_id=4, product_id=4, quantity=1, price=290)"
+        }
+    ],
+    "test_data_sqlite": "INSERT INTO Customers (name, email, phone, created_date, address) VALUES \n('John Doe', 'john.doe@example.com', '1234567890', CURRENT_TIMESTAMP, '123 Elm St, Springfield'),\n('Jane Smith', 'jane.smith@example.com', '0987654321', CURRENT_TIMESTAMP, '456 Maple Ave, Greenville'),\n('Alice Johnson', 'alice.j@example.com', '5551234567', CURRENT_TIMESTAMP, '789 Pine Rd, Hilltown'),\n('Bob Brown', 'bob.b@example.com', '5559876543', CURRENT_TIMESTAMP, '321 Oak Dr, Lakecity');\n\nINSERT INTO Orders (order_date, customer_id, notes) VALUES \n('2023-01-10', 1, 'Urgent delivery'),\n('2023-01-15', 2, 'Include a gift note'),\n('2023-01-20', 3, 'Deliver during afternoon'),\n('2023-01-25', 4, 'No packaging');\n\nINSERT INTO Products (name, description, price, stock_quantity) VALUES \n('Laptop', '15-inch screen, 8GB RAM', 1000, 50),\n('Smartphone', '64GB, Dual SIM', 800, 100),\n('Headphones', 'Noise cancelling', 150, 200),\n('Monitor', '27-inch 4K display', 300, 75);\n\nINSERT INTO Items (order_id, product_id, quantity, price) VALUES \n(1, 1, 2, 950),\n(2, 2, 1, 800),\n(3, 3, 3, 145),\n(4, 4, 1, 290);",
+    "name": "Sales_System"
+}
